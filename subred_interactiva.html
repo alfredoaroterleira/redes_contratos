@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1000px;
+                 height: 700px;
+                 background-color: white;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "font": {"color": "black"}, "id": "JUNIN", "label": "JUNIN", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20486834529", "label": "20486834529", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20510591829", "label": "20510591829", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "CALLAO", "label": "CALLAO", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20534158069", "label": "20534158069", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20542049228", "label": "20542049228", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20567237061", "label": "20567237061", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "HUANCAVELICA", "label": "HUANCAVELICA", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20487499685", "label": "20487499685", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20531065019", "label": "20531065019", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20571135885", "label": "20571135885", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "99000027401", "label": "99000027401", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "LIMA", "label": "LIMA", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "PASCO", "label": "PASCO", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20568355041", "label": "20568355041", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20393633990", "label": "20393633990", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20530954022", "label": "20530954022", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20489532981", "label": "20489532981", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20480836252", "label": "20480836252", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20103921288", "label": "20103921288", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "AMAZONAS", "label": "AMAZONAS", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "PIURA", "label": "PIURA", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20517623394", "label": "20517623394", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "APURIMAC", "label": "APURIMAC", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20528950494", "label": "20528950494", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20602979173", "label": "20602979173", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20260236611", "label": "20260236611", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20529656751", "label": "20529656751", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20542531097", "label": "20542531097", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "MOQUEGUA", "label": "MOQUEGUA", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ICA", "label": "ICA", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20534013923", "label": "20534013923", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20530592520", "label": "20530592520", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "LA LIBERTAD", "label": "LA LIBERTAD", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ANCASH", "label": "ANCASH", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20450326713", "label": "20450326713", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20528917951", "label": "20528917951", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20602371442", "label": "20602371442", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20528901361", "label": "20528901361", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20453649840", "label": "20453649840", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "PUNO", "label": "PUNO", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20569181756", "label": "20569181756", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20493874587", "label": "20493874587", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20488351398", "label": "20488351398", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20408018804", "label": "20408018804", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20571395283", "label": "20571395283", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20261295246", "label": "20261295246", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20480427913", "label": "20480427913", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20537169207", "label": "20537169207", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20567140220", "label": "20567140220", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20493537742", "label": "20493537742", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20528115897", "label": "20528115897", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20523386469", "label": "20523386469", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20571395364", "label": "20571395364", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20489544998", "label": "20489544998", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "LAMBAYEQUE", "label": "LAMBAYEQUE", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20542191059", "label": "20542191059", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "TACNA", "label": "TACNA", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20494951020", "label": "20494951020", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20539094930", "label": "20539094930", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "LORETO", "label": "LORETO", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "UCAYALI", "label": "UCAYALI", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "10805536867", "label": "10805536867", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "SAN MARTIN", "label": "SAN MARTIN", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20495675611", "label": "20495675611", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "TUMBES", "label": "TUMBES", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20530990681", "label": "20530990681", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20600683650", "label": "20600683650", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20544771478", "label": "20544771478", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "AREQUIPA", "label": "AREQUIPA", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20547097069", "label": "20547097069", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20603476400", "label": "20603476400", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20445575411", "label": "20445575411", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "HUANUCO", "label": "HUANUCO", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20479764728", "label": "20479764728", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20407863250", "label": "20407863250", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "AYACUCHO", "label": "AYACUCHO", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20477160710", "label": "20477160710", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20489747244", "label": "20489747244", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "CAJAMARCA", "label": "CAJAMARCA", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20528255982", "label": "20528255982", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20529066521", "label": "20529066521", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "CUSCO", "label": "CUSCO", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20323041092", "label": "20323041092", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20393353105", "label": "20393353105", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20489371791", "label": "20489371791", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20486960401", "label": "20486960401", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20489536979", "label": "20489536979", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20493043073", "label": "20493043073", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20529202998", "label": "20529202998", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20456317376", "label": "20456317376", "shape": "dot"}, {"color": "lightgreen", "font": {"color": "black"}, "id": "20494341973", "label": "20494341973", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "MADRE DE DIOS", "label": "MADRE DE DIOS", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "JUNIN", "title": "Contratos: 2", "to": "20486960401", "value": 2}, {"from": "JUNIN", "title": "Contratos: 1", "to": "20487499685", "value": 1}, {"from": "JUNIN", "title": "Contratos: 1", "to": "20528901361", "value": 1}, {"from": "JUNIN", "title": "Contratos: 1", "to": "20547097069", "value": 1}, {"from": "JUNIN", "title": "Contratos: 1", "to": "20600683650", "value": 1}, {"from": "JUNIN", "title": "Contratos: 3", "to": "20602371442", "value": 3}, {"from": "JUNIN", "title": "Contratos: 3", "to": "20602979173", "value": 3}, {"from": "JUNIN", "title": "Contratos: 1", "to": "20603476400", "value": 1}, {"from": "20486834529", "title": "Contratos: 7", "to": "HUANUCO", "value": 7}, {"from": "20486834529", "title": "Contratos: 1", "to": "PASCO", "value": 1}, {"from": "20510591829", "title": "Contratos: 8", "to": "HUANUCO", "value": 8}, {"from": "20510591829", "title": "Contratos: 2", "to": "PASCO", "value": 2}, {"from": "CALLAO", "title": "Contratos: 2", "to": "20261295246", "value": 2}, {"from": "CALLAO", "title": "Contratos: 1", "to": "20486960401", "value": 1}, {"from": "CALLAO", "title": "Contratos: 1", "to": "20488351398", "value": 1}, {"from": "CALLAO", "title": "Contratos: 7", "to": "20493043073", "value": 7}, {"from": "CALLAO", "title": "Contratos: 1", "to": "20517623394", "value": 1}, {"from": "CALLAO", "title": "Contratos: 1", "to": "20547097069", "value": 1}, {"from": "CALLAO", "title": "Contratos: 1", "to": "20602979173", "value": 1}, {"from": "20534158069", "title": "Contratos: 5", "to": "ANCASH", "value": 5}, {"from": "20534158069", "title": "Contratos: 1", "to": "TUMBES", "value": 1}, {"from": "20542049228", "title": "Contratos: 8", "to": "ANCASH", "value": 8}, {"from": "20567237061", "title": "Contratos: 6", "to": "LORETO", "value": 6}, {"from": "HUANCAVELICA", "title": "Contratos: 3", "to": "20486960401", "value": 3}, {"from": "HUANCAVELICA", "title": "Contratos: 4", "to": "20494341973", "value": 4}, {"from": "HUANCAVELICA", "title": "Contratos: 4", "to": "20494951020", "value": 4}, {"from": "HUANCAVELICA", "title": "Contratos: 6", "to": "20568355041", "value": 6}, {"from": "20487499685", "title": "Contratos: 5", "to": "AMAZONAS", "value": 5}, {"from": "20531065019", "title": "Contratos: 4", "to": "ANCASH", "value": 4}, {"from": "20531065019", "title": "Contratos: 1", "to": "HUANUCO", "value": 1}, {"from": "20571135885", "title": "Contratos: 5", "to": "ANCASH", "value": 5}, {"from": "20571135885", "title": "Contratos: 1", "to": "LORETO", "value": 1}, {"from": "99000027401", "title": "Contratos: 1", "to": "AMAZONAS", "value": 1}, {"from": "99000027401", "title": "Contratos: 2", "to": "AREQUIPA", "value": 2}, {"from": "99000027401", "title": "Contratos: 1", "to": "LA LIBERTAD", "value": 1}, {"from": "99000027401", "title": "Contratos: 2", "to": "PASCO", "value": 2}, {"from": "99000027401", "title": "Contratos: 1", "to": "PUNO", "value": 1}, {"from": "LIMA", "title": "Contratos: 1", "to": "20260236611", "value": 1}, {"from": "LIMA", "title": "Contratos: 1", "to": "20488351398", "value": 1}, {"from": "LIMA", "title": "Contratos: 4", "to": "20523386469", "value": 4}, {"from": "LIMA", "title": "Contratos: 1", "to": "20530954022", "value": 1}, {"from": "LIMA", "title": "Contratos: 1", "to": "20603476400", "value": 1}, {"from": "PASCO", "title": "Contratos: 1", "to": "10805536867", "value": 1}, {"from": "PASCO", "title": "Contratos: 1", "to": "20456317376", "value": 1}, {"from": "PASCO", "title": "Contratos: 1", "to": "20486960401", "value": 1}, {"from": "PASCO", "title": "Contratos: 4", "to": "20489536979", "value": 4}, {"from": "PASCO", "title": "Contratos: 3", "to": "20489544998", "value": 3}, {"from": "PASCO", "title": "Contratos: 2", "to": "20517623394", "value": 2}, {"from": "PASCO", "title": "Contratos: 3", "to": "20528901361", "value": 3}, {"from": "PASCO", "title": "Contratos: 4", "to": "20528917951", "value": 4}, {"from": "PASCO", "title": "Contratos: 3", "to": "20529202998", "value": 3}, {"from": "PASCO", "title": "Contratos: 1", "to": "20537169207", "value": 1}, {"from": "PASCO", "title": "Contratos: 2", "to": "20542531097", "value": 2}, {"from": "PASCO", "title": "Contratos: 1", "to": "20547097069", "value": 1}, {"from": "20393633990", "title": "Contratos: 13", "to": "LORETO", "value": 13}, {"from": "20530954022", "title": "Contratos: 1", "to": "ANCASH", "value": 1}, {"from": "20530954022", "title": "Contratos: 3", "to": "LA LIBERTAD", "value": 3}, {"from": "20489532981", "title": "Contratos: 1", "to": "ANCASH", "value": 1}, {"from": "20489532981", "title": "Contratos: 5", "to": "HUANUCO", "value": 5}, {"from": "20489532981", "title": "Contratos: 1", "to": "SAN MARTIN", "value": 1}, {"from": "20489532981", "title": "Contratos: 3", "to": "TACNA", "value": 3}, {"from": "20489532981", "title": "Contratos: 1", "to": "TUMBES", "value": 1}, {"from": "20489532981", "title": "Contratos: 1", "to": "UCAYALI", "value": 1}, {"from": "20480836252", "title": "Contratos: 6", "to": "AMAZONAS", "value": 6}, {"from": "20103921288", "title": "Contratos: 5", "to": "LORETO", "value": 5}, {"from": "AMAZONAS", "title": "Contratos: 6", "to": "20450326713", "value": 6}, {"from": "AMAZONAS", "title": "Contratos: 1", "to": "20453649840", "value": 1}, {"from": "AMAZONAS", "title": "Contratos: 5", "to": "20479764728", "value": 5}, {"from": "AMAZONAS", "title": "Contratos: 4", "to": "20480427913", "value": 4}, {"from": "AMAZONAS", "title": "Contratos: 2", "to": "20602371442", "value": 2}, {"from": "AMAZONAS", "title": "Contratos: 2", "to": "20602979173", "value": 2}, {"from": "PIURA", "title": "Contratos: 1", "to": "20537169207", "value": 1}, {"from": "20517623394", "title": "Contratos: 1", "to": "ANCASH", "value": 1}, {"from": "20517623394", "title": "Contratos: 1", "to": "AYACUCHO", "value": 1}, {"from": "APURIMAC", "title": "Contratos: 1", "to": "20495675611", "value": 1}, {"from": "20528950494", "title": "Contratos: 5", "to": "HUANUCO", "value": 5}, {"from": "20260236611", "title": "Contratos: 5", "to": "ANCASH", "value": 5}, {"from": "20529656751", "title": "Contratos: 5", "to": "LA LIBERTAD", "value": 5}, {"from": "20542531097", "title": "Contratos: 1", "to": "ANCASH", "value": 1}, {"from": "20542531097", "title": "Contratos: 2", "to": "HUANUCO", "value": 2}, {"from": "20542531097", "title": "Contratos: 1", "to": "LORETO", "value": 1}, {"from": "MOQUEGUA", "title": "Contratos: 1", "to": "20494341973", "value": 1}, {"from": "ICA", "title": "Contratos: 1", "to": "20261295246", "value": 1}, {"from": "ICA", "title": "Contratos: 1", "to": "20445575411", "value": 1}, {"from": "ICA", "title": "Contratos: 1", "to": "20494951020", "value": 1}, {"from": "ICA", "title": "Contratos: 2", "to": "20523386469", "value": 2}, {"from": "ICA", "title": "Contratos: 2", "to": "20537169207", "value": 2}, {"from": "ICA", "title": "Contratos: 1", "to": "20603476400", "value": 1}, {"from": "20534013923", "title": "Contratos: 5", "to": "ANCASH", "value": 5}, {"from": "20530592520", "title": "Contratos: 11", "to": "ANCASH", "value": 11}, {"from": "LA LIBERTAD", "title": "Contratos: 1", "to": "20453649840", "value": 1}, {"from": "LA LIBERTAD", "title": "Contratos: 1", "to": "20523386469", "value": 1}, {"from": "LA LIBERTAD", "title": "Contratos: 1", "to": "20537169207", "value": 1}, {"from": "LA LIBERTAD", "title": "Contratos: 5", "to": "20539094930", "value": 5}, {"from": "LA LIBERTAD", "title": "Contratos: 6", "to": "20544771478", "value": 6}, {"from": "LA LIBERTAD", "title": "Contratos: 2", "to": "20603476400", "value": 2}, {"from": "ANCASH", "title": "Contratos: 6", "to": "20323041092", "value": 6}, {"from": "ANCASH", "title": "Contratos: 6", "to": "20407863250", "value": 6}, {"from": "ANCASH", "title": "Contratos: 8", "to": "20408018804", "value": 8}, {"from": "ANCASH", "title": "Contratos: 4", "to": "20445575411", "value": 4}, {"from": "ANCASH", "title": "Contratos: 2", "to": "20453649840", "value": 2}, {"from": "ANCASH", "title": "Contratos: 5", "to": "20477160710", "value": 5}, {"from": "ANCASH", "title": "Contratos: 1", "to": "20486960401", "value": 1}, {"from": "ANCASH", "title": "Contratos: 5", "to": "20488351398", "value": 5}, {"from": "ANCASH", "title": "Contratos: 1", "to": "20489371791", "value": 1}, {"from": "ANCASH", "title": "Contratos: 1", "to": "20489536979", "value": 1}, {"from": "ANCASH", "title": "Contratos: 4", "to": "20495675611", "value": 4}, {"from": "ANCASH", "title": "Contratos: 1", "to": "20528901361", "value": 1}, {"from": "ANCASH", "title": "Contratos: 1", "to": "20529066521", "value": 1}, {"from": "ANCASH", "title": "Contratos: 1", "to": "20529202998", "value": 1}, {"from": "ANCASH", "title": "Contratos: 6", "to": "20530990681", "value": 6}, {"from": "ANCASH", "title": "Contratos: 7", "to": "20542191059", "value": 7}, {"from": "ANCASH", "title": "Contratos: 3", "to": "20544771478", "value": 3}, {"from": "ANCASH", "title": "Contratos: 9", "to": "20569181756", "value": 9}, {"from": "ANCASH", "title": "Contratos: 8", "to": "20571395283", "value": 8}, {"from": "ANCASH", "title": "Contratos: 10", "to": "20571395364", "value": 10}, {"from": "ANCASH", "title": "Contratos: 4", "to": "20600683650", "value": 4}, {"from": "20450326713", "title": "Contratos: 2", "to": "SAN MARTIN", "value": 2}, {"from": "20528917951", "title": "Contratos: 1", "to": "AYACUCHO", "value": 1}, {"from": "20528917951", "title": "Contratos: 1", "to": "HUANUCO", "value": 1}, {"from": "20453649840", "title": "Contratos: 2", "to": "CAJAMARCA", "value": 2}, {"from": "PUNO", "title": "Contratos: 1", "to": "20486960401", "value": 1}, {"from": "20493874587", "title": "Contratos: 9", "to": "LORETO", "value": 9}, {"from": "20488351398", "title": "Contratos: 1", "to": "LORETO", "value": 1}, {"from": "20261295246", "title": "Contratos: 2", "to": "AREQUIPA", "value": 2}, {"from": "20480427913", "title": "Contratos: 1", "to": "LORETO", "value": 1}, {"from": "20567140220", "title": "Contratos: 6", "to": "LORETO", "value": 6}, {"from": "20493537742", "title": "Contratos: 9", "to": "LORETO", "value": 9}, {"from": "20528115897", "title": "Contratos: 11", "to": "LORETO", "value": 11}, {"from": "20489544998", "title": "Contratos: 2", "to": "HUANUCO", "value": 2}, {"from": "20542191059", "title": "Contratos: 3", "to": "HUANUCO", "value": 3}, {"from": "LORETO", "title": "Contratos: 1", "to": "20489747244", "value": 1}, {"from": "LORETO", "title": "Contratos: 6", "to": "20528255982", "value": 6}, {"from": "LORETO", "title": "Contratos: 1", "to": "20529066521", "value": 1}, {"from": "LORETO", "title": "Contratos: 1", "to": "20529202998", "value": 1}, {"from": "10805536867", "title": "Contratos: 7", "to": "HUANUCO", "value": 7}, {"from": "SAN MARTIN", "title": "Contratos: 1", "to": "20529066521", "value": 1}, {"from": "20495675611", "title": "Contratos: 2", "to": "HUANUCO", "value": 2}, {"from": "20600683650", "title": "Contratos: 1", "to": "HUANUCO", "value": 1}, {"from": "AREQUIPA", "title": "Contratos: 5", "to": "20456317376", "value": 5}, {"from": "AREQUIPA", "title": "Contratos: 1", "to": "20547097069", "value": 1}, {"from": "20547097069", "title": "Contratos: 1", "to": "CUSCO", "value": 1}, {"from": "20547097069", "title": "Contratos: 1", "to": "HUANUCO", "value": 1}, {"from": "HUANUCO", "title": "Contratos: 5", "to": "20393353105", "value": 5}, {"from": "HUANUCO", "title": "Contratos: 1", "to": "20486960401", "value": 1}, {"from": "HUANUCO", "title": "Contratos: 5", "to": "20489371791", "value": 5}, {"from": "HUANUCO", "title": "Contratos: 7", "to": "20489536979", "value": 7}, {"from": "HUANUCO", "title": "Contratos: 9", "to": "20489747244", "value": 9}, {"from": "HUANUCO", "title": "Contratos: 2", "to": "20529066521", "value": 2}, {"from": "HUANUCO", "title": "Contratos: 1", "to": "20529202998", "value": 1}, {"from": "AYACUCHO", "title": "Contratos: 1", "to": "20489536979", "value": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
